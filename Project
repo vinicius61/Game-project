@@ -1,0 +1,105 @@
+import random
+
+import time
+#game back end
+def must():
+    print("You must respond only with Y or N")
+    quit()
+
+def intro():
+    print("You take the key with you and open the cell.")
+    print("You leave the dark room, the ground is cold and damp.")
+    print("You use your hands to walk through the dark corridors")
+    print("Then... Something attacks you!")
+
+
+class creatures:
+    def __init__(self, monster_name, monster_health):
+        self.name = monster_name
+        self.health = monster_health
+
+Giant_rat = creatures("Giant rat", 50)
+Corpse = creatures("Corpse", 75)
+Goblin = creatures("Goblin", 100)
+
+class monster_attack:
+    def __init__(self, monster_ability, monster_damage):
+        self.att = monster_ability
+        self.damage = monster_damage
+
+Feral_bite = monster_attack("Feral Bite", 10)
+Tetanus_cut = monster_attack("Tetanus Cut", 20)
+Needle_shot = monster_attack("Needle Shot", 15)
+
+class player_stats:
+    def __init__(self, player_health, player_damage):
+        self.phealth = player_health
+        self.pdmg = player_damage
+
+character = player_stats(100, 10)
+
+class player_moves:
+    def __init__(self, skill_name, skill_damage):
+        self.skill = skill_name
+        self.skilldmg = skill_damage
+
+Karate_chop = player_moves("Karate Chop", 25)
+Rock_throw = player_moves("Rock Throw", 10)
+Flying_kick = player_moves("Flying Kick", 30)
+Slap = player_moves("Slap", 5)
+
+
+random_fight = random.choice([Giant_rat, Corpse, Goblin])
+
+#actual game
+
+print("...You wake up in a cold cell, with a small candle burning in the middle of the cell.")
+print("You could not remember what happened, what brought you here.")
+print("You have an uneasy sensation, as if something was watching your every move.")
+print("You notice a key next to you")
+
+startgame = input("Pick the key? (Y/N)")
+
+if startgame == "N" or startgame == "n" or startgame == " N" or startgame == " n":
+    print("You decide to not pick the key and rot in your cell forever. BAD ENDING")
+    quit()
+elif startgame == "Y" or startgame == "y" or startgame == " Y" or startgame == " y":
+    print("You take the key with you and open the cell.")
+    print("You leave the dark room, the ground is cold and damp.")
+    print("You use your hands to walk through the dark corridors")
+    print("Then... Something attacks you!")
+
+else:
+    must()
+
+fight1 = input("Do you want to fight the " + random_fight.name + " ? (Y/N)" )
+
+if fight1 == "N" or fight1 == "n" or fight1 == " n" or fight1 == " N":
+    print("As you retreat from the fight " +random_fight.name+ "jumps at you and you get killed. BAD ENDING")
+    quit()
+elif fight1 == "Y" or fight1 == "y" or fight1 == " y" or fight1 == " Y":
+    time.sleep(1.5)
+    print("Calculating the attack...")
+else:
+    print("Please only respond with Y or N")
+    quit()
+while character.phealth > 0 or Giant_rat.health > 0 or Corpse.health > 0 or Goblin.health > 0:
+    attack = random.choice([Feral_bite, Tetanus_cut, Needle_shot])
+    character.phealth -= attack.damage
+    print(f"{random_fight.name} uses {attack.att} and does {attack.damage} damage! Your health is now {character.phealth}")
+    time.sleep(1.5)
+    Giant_rat.health -= attack.damage
+    Corpse.health -= attack.damage
+    Goblin.health -= attack.damage
+    comeback_attack = input(f"Select your move! \n one =  {Karate_chop.skill} {Karate_chop.skilldmg} attack damage. \n two = {Rock_throw.skill} {Rock_throw.skilldmg} damage. \n three {Flying_kick.skill} {Flying_kick.skilldmg} damage. \n four {Slap.skill} {Slap.skilldmg} damage.")
+    if comeback_attack in ['one', 'two', 'three', 'four']:
+        print(f"Attacking {random_fight.name}")
+    else:
+        print("Please use 'one' 'two' 'three' or 'four' ")
+        break
+    time.sleep(1.5)
+    print(f"You used {comeback_attack} and did {attack.damage} damage! The enemies health is now {random_fight.health}")
+    time.sleep (1.5)
+    if character.phealth < 0 or Giant_rat.health < 0 or Corpse.health < 0 or Goblin.health < 0:
+        print("You've won!")
+        break
